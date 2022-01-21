@@ -19,7 +19,8 @@ kubectl wait --namespace ingress-nginx \
   --timeout=90s
 
 # deploy 2 services (foo, bar) that echo, and confirm it works
-kubectl apply -f https://kind.sigs.k8s.io/examples/ingress/usage.yaml
+# kubectl apply -f https://kind.sigs.k8s.io/examples/ingress/usage.yaml
+kubectl apply -f kind-nginx-usage-example.yaml
 
 # should output "foo"
 curl localhost/foo
