@@ -5,7 +5,7 @@ set -x
 #
 # More Info --> https://kind.sigs.k8s.io/docs/user/configuration
 #
-kind create cluster --name my-dev-multinode --config kind-multi-node.yaml
+kind create cluster --name multi --config kind-multi-node.yaml
 
 ### begin nginx ingress
 
