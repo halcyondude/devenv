@@ -5,7 +5,7 @@ set -x
 #
 # More Info --> https://kind.sigs.k8s.io/docs/user/configuration
 #
-kind create cluster --name multi --config kind-multi-node.yaml
+kind create cluster --name chezmoi --config kind-multi-node.yaml
 
 ### begin nginx ingress
 
@@ -38,9 +38,10 @@ helm repo update
 
 helm install crossplane --namespace crossplane-system crossplane-stable/crossplane
 
-# install bifocals, so we can browse CRDs
-kubectl create namespace bifocals
-kubectl -n bifocals apply -f https://raw.githubusercontent.com/crdsdev/bifocals/master/deploy/manifests/install.yaml
 
+
+# install bifocals, so we can browse CRDs
+# kubectl create namespace bifocals
+# kubectl -n bifocals apply -f https://raw.githubusercontent.com/crdsdev/bifocals/master/deploy/manifests/install.yaml
 # (hack) expose dashboard
-kubectl port-forward svc/bifocals -n bifocals 8080:80
+# kubectl port-forward svc/bifocals -n bifocals 8080:80
