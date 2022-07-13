@@ -170,13 +170,16 @@ Flags:
 
 Examples:
 
-# tail all logs in a namespace
-k stern .* --namespace default
-k stern .* -n default
 
 # tail all logs that match a *label* query (selector)
 
-Suppose we want to tail all pods with the label "tier=control-plane"
+# tail everything in a namespace (kube-system)
+k stern ".*" -n kube-system
+
+# tail everything in a namespace (default)
+k stern ".*" -n default
+
+# Suppose we want to tail all pods with the label "tier=control-plane"
 
  ᐅ k get po -n kube-system           
 NAME                                        READY   STATUS    RESTARTS   AGE
@@ -209,11 +212,6 @@ IP:                   172.18.0.3
 
 <snip>
 
-# tail everything in a namespace (kube-system)
-k stern ".*" -n kube-system
-
-# tail everything in a namespace (default)
-k stern ".*" -n default
 
 # tail all logs that have the label: tier=control-plane
 k stern -n kube-system --selector "tier=control-plane"
