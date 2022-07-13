@@ -1,5 +1,35 @@
 #!/usr/bin/env bash
 
+read -r -d '' KREW_INTRO_MSG << EndOfKrewIntroMessage
+What is krew?
+
+Homepage: https://krew.sigs.k8s.io
+
+Krew is the plugin manager for kubectl command-line tool.
+
+Krew helps you:
+
+* discover kubectl plugins,
+* install them on your machine,
+* keep the installed plugins up-to-date.
+
+There are 196 kubectl plugins currently distributed on Krew.
+
+Krew works across all major platforms, like macOS, Linux and Windows.
+
+Krew also helps kubectl plugin developers: You can package and distribute 
+your plugins on multiple platforms easily and makes them discoverable 
+through a centralized plugin repository with Krew.
+
+run "kubectl krew --help" after installation
+
+*** This script will install krew via brew, then install kubectl plugins via krew install xyx. 
+*** Press ENTER to continue, or CTRL+C to quit"
+EndOfKrewIntroMessage
+
+echo "$KREW_INTRO_MSG"
+read -s
+
 # print each line to output so can trace this in console
 set -x
 
