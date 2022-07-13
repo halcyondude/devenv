@@ -47,14 +47,11 @@ kubectl krew search
 #
 
 #
-# INSTALL LOG TAILING PLUGINS
+# INSTALL LOG TAILING PLUGIN ("stern")
 #
 
 # stern - my favorite for logs, because the CLI interface for it doesn't suck
 kubectl krew install stern
-
-# tail - Stream logs from multiple pods and containers
-kubectl krew install tail
 
 #
 # FOR FIGURING OUT WTF IS HAPPENING IN K8S (HIGH LEVEL)
