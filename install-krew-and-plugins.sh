@@ -171,20 +171,63 @@ Flags:
 Examples:
 
 # tail all logs in a namespace
-k stern --namespace default
-k stern -n default
+k stern .* --namespace default
+k stern .* -n default
 
 # tail all logs that match a *label* query (selector)
-k stern --all-namespaces --selector YOUR_SELECTOR_QUERY
-k stern -A -l YOUR_SELECTOR_QUERY
+
+Suppose we want to tail all pods with the label "tier=control-plane"
+
+ ᐅ k get po -n kube-system           
+NAME                                        READY   STATUS    RESTARTS   AGE
+coredns-6d4b75cb6d-f5cst                    1/1     Running   0          4m45s
+coredns-6d4b75cb6d-nfx7r                    1/1     Running   0          4m45s
+etcd-sol-control-plane                      1/1     Running   0          4m59s
+kindnet-kwlzm                               1/1     Running   0          4m45s
+kube-apiserver-sol-control-plane            1/1     Running   0          4m59s
+kube-controller-manager-sol-control-plane   1/1     Running   0          5m1s
+kube-proxy-rwp7r                            1/1     Running   0          4m45s
+kube-scheduler-sol-control-plane            1/1     Running   0          5m
+
+(⎈ |kind-sol:kube-system)~/gh/halcyondude/devenv (main ✔) ᐅ k describe po kube-apiserver-sol-control-plane
+Name:                 kube-apiserver-sol-control-plane
+Namespace:            kube-system
+Priority:             2000001000
+Priority Class Name:  system-node-critical
+Node:                 sol-control-plane/172.18.0.3
+Start Time:           Wed, 13 Jul 2022 14:09:03 -0400
+Labels:               component=kube-apiserver
+                      tier=control-plane
+Annotations:          kubeadm.kubernetes.io/kube-apiserver.advertise-address.endpoint: 172.18.0.3:6443
+                      kubernetes.io/config.hash: b6b4043001f6e921e931826302d657a1
+                      kubernetes.io/config.mirror: b6b4043001f6e921e931826302d657a1
+                      kubernetes.io/config.seen: 2022-07-13T18:09:02.903548000Z
+                      kubernetes.io/config.source: file
+                      seccomp.security.alpha.kubernetes.io/pod: runtime/default
+Status:               Running
+IP:                   172.18.0.3
+
+<snip>
+
+# tail everything in a namespace (kube-system)
+k stern ".*" -n kube-system
+
+# tail everything in a namespace (default)
+k stern ".*" -n default
+
+# tail all logs that have the label: tier=control-plane
+k stern -n kube-system --selector "tier=control-plane"
+k stern -A -l "tier=control-plane"
 
 # tail all logs that match a *field* query (selector). Note: no shorthand for --field-selector
-k stern --all-namespaces --field-selector YOUR_FIELD_QUERY
-k stern -A --field-selector YOUR_FIELD_QUERY 
+Above pod has annotation "kubeadm.kubernetes.io/kube-apiserver.advertise-address.endpoint: 172.18.0.3:6443"
 
-# tail all logs (cluster wide) generated in the past 7 minutes w/ timestamps
-k stern --all-namespaces --timestamps --since 7m
-k stern -A -t -s 7m
+# all logs matching that exact annotation (field)
+k stern -A --field-selector "kubeadm.kubernetes.io/kube-apiserver.advertise-address.endpoint=172.18.0.3:6443"
+
+# same query, but this time allow for any value (.*) instead of "172.18.0.3:6443
+k stern -A --field-selector "kubeadm.kubernetes.io/kube-apiserver.advertise-address.endpoint=.*"
+
 EndOfSternMessage
 
 echo ""
