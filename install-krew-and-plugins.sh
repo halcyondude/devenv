@@ -170,16 +170,15 @@ Flags:
 
 Examples:
 
-
-# tail all logs that match a *label* query (selector)
-
 # tail everything in a namespace (kube-system)
 k stern ".*" -n kube-system
 
 # tail everything in a namespace (default)
 k stern ".*" -n default
 
-# Suppose we want to tail all pods with the label "tier=control-plane"
+# tail all logs that match a *label* query (selector)
+
+Suppose we want to tail all pods with the label "tier=control-plane"
 
  ᐅ k get po -n kube-system           
 NAME                                        READY   STATUS    RESTARTS   AGE
